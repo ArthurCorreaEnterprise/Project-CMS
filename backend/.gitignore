@@ -1,0 +1,21 @@
+# Dependências do Node.js
+node_modules/
+
+# Arquivos de log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variáveis de ambiente
+.env
+
+# Compilação de TypeScript (se aplicável)
+dist/
+
+# Sistema de arquivos do IDE
+.idea/
+.vscode/
+
+# Outros arquivos de configuração
+.DS_Store
+Thumbs.db
