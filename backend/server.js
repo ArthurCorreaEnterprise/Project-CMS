@@ -1,23 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+require('dotenv').config(); // Adicione esta linha no topo do arquivo
 
-// Carrega variáveis de ambiente do arquivo .env
-dotenv.config();
+const express = require('express');
+const db = require('./api/models');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Middleware
-app.use(cors()); // Permite requisições de diferentes origens
-app.use(express.json()); // Faz o parser de JSON no corpo das requisições
+// Teste a conexão com o banco de dados
+db.sequelize.authenticate()
+    .then(() => {
+        console.log('Conexão com o banco de dados estabelecida com sucesso.');
+    })
+    .catch(err => {
+        console.error('Não foi possível conectar ao banco de dados:', err);
+    });
 
-// Rotas principais (ainda não implementadas)
-app.get("/", (req, res) => {
-  res.send("Servidor Express está funcionando!");
-});
-
-// Levanta o servidor
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });
