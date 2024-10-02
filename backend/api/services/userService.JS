@@ -2,6 +2,8 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const validator = require("validator"); // Importa a biblioteca validator
 
+
+
 exports.createUser = async (userData) => {
   // Verifica se o email é válido
   if (!validator.isEmail(userData.email)) {
@@ -48,8 +50,4 @@ exports.authenticateUser = async (email, password) => {
   return { user, token };
 };
 
-exports.isValidEmail = (email) => {
-  // Expressão regular para validar o formato do email
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|outlook\.com)$/;
-  return emailPattern.test(email);
-};
+
