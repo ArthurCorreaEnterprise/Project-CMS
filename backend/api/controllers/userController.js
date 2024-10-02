@@ -1,25 +1,31 @@
-// api/controllers/userController.js
+const userService = require('../services/userService');
 
-const db = require('../models');
+// Função para registrar um novo usuário
+exports.registerUser = async (req, res) => {
+  const { email, password } = req.body;
 
-exports.listUsers = async (req, res) => {
+  // Verificar se o email é válido
+  if (!isValidEmail(email)) {
+      return res.status(400).json({ error: 'Email deve ser um endereço válido (gmail.com, hotmail.com, yahoo.com, outlook.com).' });
+  }
+
   try {
-    const users = await db.User.findAll();
-    return res.json(users);
+      const user = await userService.createUser(req.body);
+      res.status(201).json({ message: 'Usuário registrado com sucesso.', user });
   } catch (error) {
-    console.error('Erro ao listar usuários:', error);
-    return res.status(500).json({ error: 'Erro ao listar usuários.' });
+      res.status(400).json({ error: error.message });
   }
 };
 
-exports.createUser = async (req, res) => {
-  const { name, email, password, access_id } = req.body;
+// Função para autenticar o usuário
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
 
   try {
-    const user = await db.User.create({ name, email, password, access_id });
-    return res.status(201).json(user);
+      const { user, token } = await userService.authenticateUser(email, password);
+      return res.status(200).json({ user, token });
   } catch (error) {
-    console.error('Erro ao criar usuário:', error);
-    return res.status(500).json({ error: 'Erro ao criar usuário.' });
+      console.error('Erro na autenticação:', error.message);
+      return res.status(401).json({ error: 'Credenciais inválidas.' });
   }
 };

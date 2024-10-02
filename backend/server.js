@@ -1,5 +1,5 @@
 // server.js
-
+require('dotenv').config(); 
 const express = require("express");
 const bodyParser = require("body-parser");
 const userRoutes = require("./api/routes/userRoutes");
@@ -8,6 +8,7 @@ const db = require("./api/models"); // Importar modelos
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Usar rotas
 app.use("/api", userRoutes);
