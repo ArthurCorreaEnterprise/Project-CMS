@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const { Sequelize } = require("sequelize");
 const pgtools = require("pgtools"); // Importar pgtools
 const routes = require("./src/routes");
+const path = require("path");
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -12,9 +13,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// Configurando middleware
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Middleware para servir arquivos estáticos
+app.use(express.json()); // Middleware para interpretar JSON
+app.use(cookieParser()); // Middleware para manipular cookies
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Configurações de CORS
 
 // Configurações do banco de dados
 const config = {
@@ -25,7 +28,7 @@ const config = {
 };
 const databaseName = process.env.DB_NAME;
 
-// Função para criar banco de dados
+// Função para criar banco de dados se não existir
 const createDatabaseIfNotExists = async () => {
   try {
     await pgtools.createdb(config, databaseName);
@@ -78,9 +81,6 @@ createDatabaseIfNotExists().then(() => {
       console.error("Erro ao conectar no banco de dados:", err);
     });
 });
-
-// Middleware para interpretar JSON
-app.use(express.json());
 
 // Usando o índice de rotas
 app.use("/api", routes);

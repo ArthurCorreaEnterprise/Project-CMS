@@ -2,7 +2,6 @@ const { Access } = require("../models");
 
 const createAccess = async (accessData) => {
   const { role } = accessData;
-
   const access = await Access.create({
     role,
   });

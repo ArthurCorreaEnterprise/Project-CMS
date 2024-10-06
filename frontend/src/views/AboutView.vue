@@ -1,108 +1,116 @@
 <template>
-    <div class="company-list">
-        <h1>Empresas Cadastradas</h1>
-        <div v-if="loading">Carregando...</div>
-        <div v-if="error">{{ error }}</div>
-
-        <div v-if="companies.length" v-for="company in companies" :key="company.id" class="company-card">
-            <h2>{{ company.nome }} ({{ company.cnpj }})</h2>
-            <p><strong>Status:</strong> {{ company.status }}</p>
-            <p><strong>Última Atualização:</strong> {{ new Date(company.ultima_atualizacao).toLocaleString() }}</p>
-            <p><strong>Porte:</strong> {{ company.porte }}</p>
-            <p><strong>Tipo:</strong> {{ company.tipo }}</p>
-            <p><strong>Abertura:</strong> {{ company.abertura }}</p>
-            <p><strong>Natureza Jurídica:</strong> {{ company.natureza_juridica }}</p>
-            <p><strong>Endereço:</strong> {{ company.logradouro }}, {{ company.numero }} {{ company.complemento }} - {{
-                company.bairro }}, {{ company.municipio }} - {{ company.uf }}</p>
-            <p><strong>CEP:</strong> {{ company.cep }}</p>
-            <p><strong>Email:</strong> {{ company.email }}</p>
-            <p><strong>Telefone:</strong> {{ company.telefone }}</p>
-            <p><strong>Capital Social:</strong> R$ {{ parseFloat(company.capital_social).toLocaleString('pt-BR') }}</p>
-
-            <!-- Main Activity -->
-            <h3>Atividade Principal</h3>
-            <ul>
-                <li v-for="activity in company.mainActivities" :key="activity.id">
-                    {{ activity.code }} - {{ activity.text }}
-                </li>
-            </ul>
-
-            <!-- Secondary Activities -->
-            <h3>Atividades Secundárias</h3>
-            <ul>
-                <li v-for="activity in company.secondaryActivities" :key="activity.id">
-                    {{ activity.code }} - {{ activity.text }}
-                </li>
-            </ul>
-
-            <!-- QSA -->
-            <h3>Quadro de Sócios e Administradores (QSA)</h3>
-            <ul>
-                <li v-for="person in company.qsa" :key="person.id">
-                    {{ person.nome }} - {{ person.qual }}
-                </li>
-            </ul>
-
-            <!-- Simples -->
-            <h3>Simples Nacional</h3>
-            <p v-if="company.simples.optante">Optante desde: {{ new
-                Date(company.simples.data_opcao).toLocaleDateString() }}</p>
-            <p v-else>Não Optante</p>
-
-            <!-- Simei -->
-            <h3>Simei</h3>
-            <p v-if="company.simei.optante">Optante</p>
-            <p v-else>Não Optante</p>
-
-            <hr />
-        </div>
+    <div>
+        <h1>Cadastrar Blog</h1>
+        <form @submit.prevent="submitForm">
+            <div>
+                <label for="title">Título:</label>
+                <input type="text" id="title" v-model="blog.title" required />
+            </div>
+            <div>
+                <label for="content">Conteúdo:</label>
+                <QuillEditor v-model="blog.content" />
+            </div>
+            <div>
+                <label for="cover">Imagem de Capa:</label>
+                <input type="file" id="cover" @change="handleImageUpload" accept="image/*" required />
+            </div>
+            <div>
+                <label for="category">Categoria:</label>
+                <select id="category" v-model="blog.category_id" required>
+                    <option value="" disabled>Selecione uma categoria</option>
+                    <option v-for="category in categories" :key="category.id" :value="category.id">
+                        {{ category.name }}
+                    </option>
+                </select>
+            </div>
+            <button type="submit">Salvar Blog</button>
+        </form>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import QuillEditor from '../components/QuillEditor.vue';
+import axios from 'axios';
 
-const companies = ref([]);
-const loading = ref(true);
-const error = ref('');
+const store = useStore();
 
-// Função que consulta as empresas na API
-const fetchCompanies = async () => {
+const blog = ref({
+    title: '',
+    content: '',
+    cover: null,
+    category_id: null,
+});
+
+// Para armazenar as categorias
+const categories = ref([]);
+
+// Pega as categorias do banco de dados
+const fetchCategories = async () => {
     try {
-        const response = await fetch('http://localhost:4000/api/companies'); // Substitua pela sua URL da API
-        const data = await response.json();
-        companies.value = data;
-    } catch (err) {
-        error.value = 'Erro ao carregar empresas.';
-    } finally {
-        loading.value = false;
+        const response = await axios.get('http://localhost:4000/api/categories/'); // Ajuste a URL conforme sua API
+        categories.value = response.data;
+    } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
     }
 };
 
+// Lida com o upload da imagem
+const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        blog.value.cover = file; // Armazena a imagem no estado
+    }
+};
+
+// Envia o formulário
+const submitForm = async () => {
+    try {
+        const userId = store.state.user.id;
+        if (!userId) {
+            throw new Error('Usuário não autenticado');
+        }
+
+        console.log('Dados do blog:', blog.value);
+        console.log('userId:', userId); // Adicionei esse log
+
+        const formData = new FormData();
+        formData.append('title', blog.value.title);
+        formData.append('content', blog.value.content);
+        formData.append('cover', blog.value.cover); // Adiciona a imagem ao FormData
+        formData.append('category_id', blog.value.category_id);
+        formData.append('user_id', userId);
+
+        // Adicione um log para verificar o conteúdo do FormData
+        for (const [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+        const response = await axios.post('http://localhost:4000/api/blogs/register', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Importante para upload de arquivos
+            },
+        });
+
+        console.log('Blog cadastrado com sucesso:', response.data);
+
+        // Limpa o formulário após o envio
+        blog.value.title = '';
+        blog.value.content = '';
+        blog.value.cover = null;
+        blog.value.category_id = null;
+    } catch (error) {
+        console.error('Erro ao cadastrar blog:', error.response ? error.response.data : error.message);
+    }
+};
+
+// Executa ao montar o componente
 onMounted(() => {
-    fetchCompanies();
+    fetchCategories();
 });
 </script>
 
 <style scoped>
-.company-list {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.company-card {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin-bottom: 16px;
-}
-
-h1,
-h2,
-h3 {
-    color: #333;
-}
-
-hr {
-    margin-top: 20px;
-}
+/* Estilos para o formulário, se necessário */
 </style>
