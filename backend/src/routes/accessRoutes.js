@@ -1,11 +1,9 @@
-// api/routes/accessRoutes.js
-
 const express = require('express');
 const accessController = require('../controllers/accessController');
 
 const router = express.Router();
 
-router.get('/access', accessController.listAccess);
-router.post('/access', accessController.createAccess);
+router.post('/register', accessController.createAccess);
+router.get('/', accessController.getAccess);
 
 module.exports = router;

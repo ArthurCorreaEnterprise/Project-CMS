@@ -2,21 +2,21 @@
   "development": {
     "username": "postgres",
     "password": "@Arthur22042002",
-    "database": "postgres",
+    "database": "project_cms_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "seu_usuario",
     "password": "sua_senha",
-    "database": "nome_do_banco_de_dados_test",
+    "database": "project_cms_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "seu_usuario",
     "password": "sua_senha",
-    "database": "nome_do_banco_de_dados_prod",
+    "database": "project_cms_prod",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
