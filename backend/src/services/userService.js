@@ -27,6 +27,7 @@ const checkIfEmailExists = async (email) => {
 const createUser = async (userData) => {
   const { name, email, password, access_id } = userData;
 
+  // Valida o formato do email e verifica se já existe
   validateEmail(email);
   await checkIfEmailExists(email);
 
@@ -36,10 +37,10 @@ const createUser = async (userData) => {
   const confirmationLink = `http://localhost:4000/api/confirm-email?email=${email}`;
 
   try {
-    // Enviar o e-mail de confirmação
+    // Tente enviar o e-mail antes de salvar o usuário
     await emailService.sendConfirmationEmail(email, confirmationLink);
 
-    // Registrar o usuário com os novos campos
+    // Se o e-mail for enviado com sucesso, crie o usuário
     const user = await User.create({
       name,
       email,
@@ -48,10 +49,17 @@ const createUser = async (userData) => {
     });
 
     return user;
+
   } catch (error) {
-    throw new Error("Erro ao enviar e-mail de confirmação: " + error.message);
+    // Verifica se o erro foi no envio de e-mail
+    if (error.message.includes('Invalid login') || error.message.includes('Invalid recipient')) {
+      throw new Error("Erro: O e-mail fornecido é inválido ou inexistente.");
+    } else {
+      throw new Error("Erro ao enviar e-mail de confirmação: " + error.message);
+    }
   }
 };
+
 
 // Função de autenticação
 const authenticateUser = async (email, password) => {

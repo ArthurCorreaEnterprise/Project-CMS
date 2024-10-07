@@ -87,5 +87,5 @@ app.use("/api", routes);
 
 // Rota simples de teste
 app.get("/", (req, res) => {
-  res.send("Bem-vindo ao Project-CRM Backend!");
+  res.send("Bem-vindo ao Project-CMS Backend!");
 });
