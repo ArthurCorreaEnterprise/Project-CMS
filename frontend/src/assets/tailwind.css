@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.logo {
+  @apply size-16 stroke-2;
+}
+
+p {
+  @apply text-sm font-semibold;
+}
+
+label {
+  @apply text-base font-semibold capitalize;
+}
+
+input {
+  @apply border p-2 rounded-lg focus:outline-none focus:ring;
+  @apply accent-green-600 caret-green-600 focus:ring-green-600 border-gray-400;
+}
+
+input.error {
+  @apply caret-red-600 focus:ring-red-600 border-red-500;
+}
+
+a {
+  @apply underline font-semibold;
+  @apply text-blue-700;
+}
+
+button {
+  @apply py-2 px-4 border rounded-lg;
+}
+
+button.model {
+  @apply w-full  font-bold bg-gradient-to-r hover:bg-gradient-to-l;
+}
+
+button.colorGreen {
+  @apply from-lime-500 via-green-500 to-emerald-500 text-emerald-900;
+}

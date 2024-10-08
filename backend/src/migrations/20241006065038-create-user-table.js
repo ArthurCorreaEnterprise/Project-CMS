@@ -21,6 +21,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      privacyPolicy: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       access_id: {
         type: Sequelize.INTEGER,
         references: {

@@ -8,24 +8,24 @@ const allowedDomains = ["gmail.com", "hotmail.com", "yahoo.com"];
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    throw new Error("Formato de e-mail inválido");
+    throw new Error("Invalid email format");
   }
 
   const domain = email.split("@")[1];
   if (!allowedDomains.includes(domain)) {
-    throw new Error("Domínio de e-mail não permitido");
+    throw new Error("Email domain not allowed");
   }
 };
 
 const checkIfEmailExists = async (email) => {
   const user = await User.findOne({ where: { email } });
   if (user) {
-    throw new Error("E-mail já cadastrado");
+    throw new Error("Email already exists");
   }
 };
 
 const createUser = async (userData) => {
-  const { name, email, password, access_id } = userData;
+  const { name, email, password, access_id, privacyPolicy } = userData;
 
   // Valida o formato do email e verifica se já existe
   validateEmail(email);
@@ -46,6 +46,7 @@ const createUser = async (userData) => {
       email,
       password: hashedPassword,
       access_id,
+      privacyPolicy,
     });
 
     return user;
