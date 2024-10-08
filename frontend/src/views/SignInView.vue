@@ -93,6 +93,10 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
+a {
+  @apply underline font-semibold;
+  @apply text-blue-700;
+}
 span {
   @apply text-2xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
   @apply from-green-600 to-yellow-600;
