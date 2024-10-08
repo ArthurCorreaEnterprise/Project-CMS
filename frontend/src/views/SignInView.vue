@@ -82,7 +82,7 @@ const handleSubmit = async () => {
     messageType.value = 'success';
     router.push('/');
   } catch (error) {
-    console.error('Error registering user:', error);
+    // console.error('Error registering user:', error);
     errorMessage.value = 'Incorrect password or email';
     messageType.value = 'error';
     errorAuth.value = true;
