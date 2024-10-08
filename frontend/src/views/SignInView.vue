@@ -2,13 +2,8 @@
   <div class="signin-container">
     <div class="signin-image"></div>
     <div class="signin-form-container">
-      <div class="signin-logo">
-        <RouterLink to="/">
-          <img class="logo" src="/svg/logo.svg" alt="Logo" />
-        </RouterLink>
-      </div>
       <div class="signin-header">
-        <span>welcome back to the SantaLucia blog</span>
+        <span>welcome back</span>
         <p>Enter your username and password to continue</p>
       </div>
       <div class="signin-header">
@@ -30,7 +25,7 @@
             </div>
             <RouterLink class="" to="/forgotpassword">Forgot Password</RouterLink>
           </div>
-          <button class="colorGreen model" type="submit" :disabled="isSubmitting">
+          <button class="Green" type="submit" :disabled="isSubmitting">
             <div v-if="!isSubmitting">Sign In</div>
             <div v-if="isSubmitting" class="signin-spinner">
               <font-awesome-icon :icon="['fas', 'arrows-rotate']" />
@@ -98,7 +93,7 @@ a {
   @apply text-blue-700;
 }
 span {
-  @apply text-2xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
+  @apply text-4xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
   @apply from-green-600 to-yellow-600;
 }
 
@@ -107,15 +102,11 @@ span {
 }
 
 .signin-form-container {
-  @apply border flex justify-start items-center flex-col w-1/2 gap-2 p-2
-}
-
-.signin-logo {
-  @apply w-3/4 flex
+  @apply border flex justify-center items-center flex-col w-1/2 gap-2 p-2
 }
 
 .signin-header {
-  @apply border-b-2 pb-2 w-3/4;
+  @apply border-b-2 pb-4 w-3/4;
   @apply border-green-600
 }
 

@@ -1,13 +1,8 @@
 <template>
   <div class="signup-container">
     <div class="signup-form-container">
-      <div class="signup-logo">
-        <RouterLink to="/">
-          <img class="logo" src="/svg/logo.svg" alt="Logo" />
-        </RouterLink>
-      </div>
       <div class="signup-header">
-        <span>Welcome to the SantaLucia blog</span>
+        <span>Welcome</span>
         <p>Enter your credentials to create your account</p>
       </div>
       <div class="signup-header">
@@ -36,7 +31,7 @@
             <label for="privacyPolicy">I agree to the</label>
             <a href="http://">Terms & Priavcy</a>
           </div>
-          <button class="colorGreen model" type="submit" :disabled="isSubmitting">
+          <button class="Green" type="submit" :disabled="isSubmitting">
             <div v-if="!isSubmitting">Sign Up</div>
             <div v-if="isSubmitting" class="signup-spinner">
               <font-awesome-icon :icon="['fas', 'arrows-rotate']" />
@@ -120,8 +115,9 @@ a {
   @apply underline font-semibold;
   @apply text-blue-700;
 }
+
 span {
-  @apply text-2xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
+  @apply text-4xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
   @apply from-green-600 to-yellow-600;
 }
 
@@ -130,16 +126,11 @@ span {
 }
 
 .signup-form-container {
-  @apply border flex justify-start items-center flex-col w-1/2 gap-2 p-2
+  @apply border flex justify-center items-center flex-col w-1/2 gap-2 p-2
 }
-
-.signup-logo {
-  @apply w-3/4 flex
-}
-
 
 .signup-header {
-  @apply border-b-2 pb-2 w-3/4;
+  @apply border-b-2 pb-6 w-3/4;
   @apply border-green-600
 }
 
