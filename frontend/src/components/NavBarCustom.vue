@@ -1,20 +1,19 @@
 <template>
     <nav class="style-00">
-        <div class="style-02">
+        <div class="style-01">
             <img class="logo" src="/svg/logo.svg" alt="Logo" />
-            <div class="style-01">
+            <div class="style-02">
                 <RouterLink to="/" active-class="active">Home</RouterLink>
                 <RouterLink to="/about" active-class="active">About</RouterLink>
                 <RouterLink to="/categories" active-class="active">Categories</RouterLink>
                 <RouterLink to="/contact" active-class="active">Contact</RouterLink>
             </div>
         </div>
-        <div class="">
-            <label for="email">Search</label>
-            <input type="email" id="email" v-model="formData.email"
-              placeholder="Enter your email" required />
-          </div>
-        <div v-if="isAuthenticated" class="style-01">
+        <div class="style-03">
+            <font-awesome-icon class="style-04" :icon="['fas', 'magnifying-glass']" />
+            <input type="search" id="search" placeholder="Quick Search" />
+        </div>
+        <div v-if="isAuthenticated" class="">
             <div>
                 <button>
                     <font-awesome-icon :icon="['fas', 'bell']" />
@@ -23,15 +22,21 @@
             <div>
                 <button @click="logout">Logout</button>
             </div>
-            <div class="style-03"></div>
-            <button class="style-04 colorGreen model">
+            <div class="">
+                <font-awesome-icon :icon="['fas', 'user']" />
+            </div>
+            <button class="">
                 <font-awesome-icon :icon="['fas', 'plus']" />
                 <div>Create</div>
             </button>
         </div>
-        <div v-else class="style-01">
-            <RouterLink to="/signin">Sign In</RouterLink>
-            <RouterLink to="/signup">Sign Up</RouterLink>
+        <div v-else class="style-05">
+            <button class="BlueBorder">
+                <RouterLink to="/signup">Sign Up</RouterLink>
+            </button>
+            <button class="Blue">
+                <RouterLink to="/signin">Sign In</RouterLink>
+            </button>
         </div>
     </nav>
 </template>
@@ -54,28 +59,39 @@ const logout = () => {
 
 <style scoped>
 .style-00 {
-    @apply border flex justify-between items-center py-2 px-6
+    @apply border-b flex justify-between items-center px-6 py-2 w-full;
+    @apply border-gray-200
 }
 
 .style-01 {
-    @apply border flex justify-between items-center w-full font-semibold
+    @apply border flex justify-between items-center gap-20;
 }
 
 .style-02 {
-    @apply border flex justify-between items-center gap-10 w-full
+    @apply border flex justify-between items-center gap-10 font-bold;
+    @apply text-gray-400;
 }
 
 .style-03 {
-    @apply size-10 rounded-full bg-cover bg-center;
-    background-image: url("/image/image-profile.jpg")
+    @apply border relative flex justify-start items-center;
 }
 
 .style-04 {
-    @apply flex justify-center items-center gap-2 ;
+    @apply border left-2 absolute;
+    @apply text-gray-400
 }
 
-span {
-    @apply text-2xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
-    @apply from-green-600 to-yellow-600;
+.style-05 {
+    @apply border flex gap-2;
+}
+
+input {
+    @apply pl-8 w-96;
+    @apply bg-gray-200 border-gray-200
+}
+
+.active {
+    @apply font-bold;
+    @apply text-gray-500
 }
 </style>
