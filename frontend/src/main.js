@@ -11,6 +11,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import {
   faArrowLeft,
   faArrowsRotate,
+  faBell,
   faCircleCheck,
   faCircleExclamation,
   faCircleInfo,
@@ -19,6 +20,7 @@ import {
   faKey,
   faMagnifyingGlass,
   faMoon,
+  faPlus,
   faRightFromBracket,
   faRightToBracket,
   faSun,
@@ -44,7 +46,9 @@ library.add(
   faCircleCheck,
   faTriangleExclamation,
   faCircleInfo,
-  faCircleQuestion
+  faCircleQuestion,
+  faBell,
+  faPlus
 )
 
 const app = createApp(App);

@@ -1,26 +1,38 @@
 <template>
-    <nav>
-        <ul class="nav-list">
-            <li>
-                <RouterLink to="/">Home</RouterLink>
-            </li>
-            <li>
-                <RouterLink to="/about">About</RouterLink>
-            </li>
-        </ul>
-        <ul v-if="isAuthenticated" class="auth-buttons">
-            <li>
+    <nav class="style-00">
+        <div class="style-02">
+            <img class="logo" src="/svg/logo.svg" alt="Logo" />
+            <div class="style-01">
+                <RouterLink to="/" active-class="active">Home</RouterLink>
+                <RouterLink to="/about" active-class="active">About</RouterLink>
+                <RouterLink to="/categories" active-class="active">Categories</RouterLink>
+                <RouterLink to="/contact" active-class="active">Contact</RouterLink>
+            </div>
+        </div>
+        <div class="">
+            <label for="email">Search</label>
+            <input type="email" id="email" v-model="formData.email"
+              placeholder="Enter your email" required />
+          </div>
+        <div v-if="isAuthenticated" class="style-01">
+            <div>
+                <button>
+                    <font-awesome-icon :icon="['fas', 'bell']" />
+                </button>
+            </div>
+            <div>
                 <button @click="logout">Logout</button>
-            </li>
-        </ul>
-        <ul v-else class="auth-buttons">
-            <li>
-                <RouterLink to="/signin">Sign In</RouterLink>
-            </li>
-            <li>
-                <RouterLink to="/signup">Sign Up</RouterLink>
-            </li>
-        </ul>
+            </div>
+            <div class="style-03"></div>
+            <button class="style-04 colorGreen model">
+                <font-awesome-icon :icon="['fas', 'plus']" />
+                <div>Create</div>
+            </button>
+        </div>
+        <div v-else class="style-01">
+            <RouterLink to="/signin">Sign In</RouterLink>
+            <RouterLink to="/signup">Sign Up</RouterLink>
+        </div>
     </nav>
 </template>
 
@@ -32,37 +44,38 @@ import { useRouter } from 'vue-router';
 const store = useStore();
 const router = useRouter();
 
-// Computed property para verificar se o usuário está autenticado
 const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
-// Função para fazer logout
 const logout = () => {
     store.dispatch('logout');
-    router.push('/signin');
+    router.push('/');
 };
 </script>
 
 <style scoped>
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    background-color: #333;
+.style-00 {
+    @apply border flex justify-between items-center py-2 px-6
 }
 
-.nav-list,
-.auth-buttons {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
+.style-01 {
+    @apply border flex justify-between items-center w-full font-semibold
 }
 
-a {
-    color: white;
-    text-decoration: none;
+.style-02 {
+    @apply border flex justify-between items-center gap-10 w-full
 }
 
-a:hover {
-    text-decoration: underline;
+.style-03 {
+    @apply size-10 rounded-full bg-cover bg-center;
+    background-image: url("/image/image-profile.jpg")
+}
+
+.style-04 {
+    @apply flex justify-center items-center gap-2 ;
+}
+
+span {
+    @apply text-2xl capitalize font-bold bg-clip-text text-transparent bg-gradient-to-r;
+    @apply from-green-600 to-yellow-600;
 }
 </style>
