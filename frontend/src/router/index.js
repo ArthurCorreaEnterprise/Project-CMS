@@ -3,6 +3,7 @@ import Home from '../views/HomeView.vue';
 import About from '../views/AboutView.vue';
 import SignIn from '../views/SignInView.vue';
 import SignUp from '../views/SignUpView.vue';
+import ForgotPassword from '../views/ForgotPasswordView.vue';
 
 const routes = [
   {
@@ -21,6 +22,12 @@ const routes = [
     path: '/signin',
     name: 'SignIn',
     component: SignIn,
+    meta: { layout: 'auth' }, // layout sem a NavBarCustom
+  },
+  {
+    path: '/forgotpassword',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
     meta: { layout: 'auth' }, // layout sem a NavBarCustom
   },
   {
